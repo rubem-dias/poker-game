@@ -18,7 +18,7 @@ app.prepare().then(() => {
   initSocketServer(httpServer);
 
   httpServer.listen(port, () => {
-    console.log(`\n🃏 Poker Game running at http://${hostname}:${port}`);
-    console.log(`   Environment: ${dev ? 'development' : 'production'}\n`);
+    console.log(`\n oker Game running at http://${hostname}:${port}`);
+    console.log(`Environment: ${dev ? 'development' : 'production'}\n`);
   });
 });

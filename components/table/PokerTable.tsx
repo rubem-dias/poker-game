@@ -14,19 +14,6 @@ const PHASE_LABEL: Record<string, string> = {
   'showdown': 'SHOWDOWN',
 };
 
-const HAND_PT: Record<string, string> = {
-  'Royal Flush':     'Royal Flush',
-  'Straight Flush':  'Straight Flush',
-  'Four of a Kind':  'Quadra',
-  'Full House':      'Full House',
-  'Flush':           'Flush',
-  'Straight':        'Sequência',
-  'Three of a Kind': 'Trinca',
-  'Two Pair':        'Dois Pares',
-  'One Pair':        'Um Par',
-  'High Card':       'Carta Alta',
-  'Winner by default':'Todos foldaram',
-};
 
 /* Positions every seat around an ellipse.
    i=0 → bottom-center (local player) */
@@ -230,57 +217,6 @@ export function PokerTable({
             ))}
           </div>
 
-          {/* Hand results */}
-          <AnimatePresence>
-            {handResults && handResults.length > 0 && phase === 'showdown' && (
-              <motion.div
-                initial={{ scale: 0.7, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.7, opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 380, damping: 22 }}
-                style={{ display: 'flex', flexDirection: 'column', gap: 6 }}
-              >
-                {handResults.map((result, i) => {
-                  const winner = players.find(p => p.id === result.winnerId);
-                  return (
-                    <motion.div
-                      key={i}
-                      initial={{ y: 12, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: i * 0.15 }}
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(250,204,21,0.95), rgba(245,158,11,0.92))',
-                        borderRadius: 16,
-                        padding: '8px 20px',
-                        textAlign: 'center',
-                        boxShadow: '0 4px 24px rgba(250,204,21,0.45), 0 0 40px rgba(250,204,21,0.15)',
-                        border: '1px solid rgba(255,255,255,0.3)',
-                      }}
-                    >
-                      <div style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: 18,
-                        fontWeight: 700,
-                        color: '#000',
-                        lineHeight: 1.2,
-                      }}>
-                        🏆 {winner?.name} venceu!
-                      </div>
-                      <div style={{
-                        fontFamily: 'var(--font-body)',
-                        fontSize: 13,
-                        fontWeight: 500,
-                        color: 'rgba(0,0,0,0.6)',
-                        marginTop: 2,
-                      }}>
-                        {HAND_PT[result.handName] || result.handName} · +${formatChips(result.amount)}
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
 
       </div>

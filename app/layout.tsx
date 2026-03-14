@@ -16,8 +16,8 @@ const rajdhani = Rajdhani({
 });
 
 export const metadata: Metadata = {
-  title: "🃏 Poker — Texas Hold'em",
-  description: "Jogue poker Texas Hold'em com seus amigos em tempo real",
+  title: "Poker",
+  description: "Poker dos amingos",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

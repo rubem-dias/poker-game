@@ -84,32 +84,25 @@ export function GameRoom() {
       </div>
 
       {/* ── Floating leave button ── */}
-      <motion.button
-        whileHover={{ scale: 1.08, opacity: 1 }}
-        whileTap={{ scale: 0.94 }}
+      <button
         onClick={() => store.setShowLeaveConfirm(true)}
-        title="Sair da mesa"
         style={{
           position: 'fixed', top: 14, right: 16, zIndex: 40,
-          display: 'flex', alignItems: 'center', gap: 5,
-          padding: '7px 14px', borderRadius: 99,
-          background: 'rgba(0,0,0,0.45)',
-          border: '1px solid rgba(255,255,255,0.10)',
+          padding: '5px 14px', borderRadius: 99,
+          background: 'rgba(0,0,0,0.30)',
+          border: '1px solid rgba(255,255,255,0.07)',
           backdropFilter: 'blur(12px)',
-          color: 'rgba(255,255,255,0.45)',
+          color: 'rgba(255,255,255,0.30)',
           fontFamily: 'var(--font-body)',
-          fontSize: 13, fontWeight: 600,
-          cursor: 'pointer',
-          opacity: 0.7,
-          transition: 'all 0.15s',
+          fontSize: 12, fontWeight: 500,
+          cursor: 'pointer', letterSpacing: '0.04em',
         }}
       >
-        <span style={{ fontSize: 14 }}>🚪</span>
         Sair
-      </motion.button>
+      </button>
 
       {/* ── Main area ── */}
-      <div className="flex-1 flex flex-col items-center relative z-10" style={{ padding: '8px', gap: 8, minHeight: 0 }}>
+      <div className="flex-1 flex flex-col items-center relative z-10" style={{ padding: '8px', gap: 8, minHeight: 0, paddingBottom: 100 }}>
 
         {/* Waiting lobby */}
         {gameState.phase === 'waiting' && (
@@ -221,8 +214,16 @@ export function GameRoom() {
           />
         </div>
 
-        {/* Action bar / sua vez — fixed height to prevent table from resizing */}
-        <div style={{ width: '100%', maxWidth: 560, minHeight: 170, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+      </div>
+
+      {/* Fixed action bar — never affects table layout */}
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 30,
+        display: 'flex', justifyContent: 'center',
+        padding: '0 14px 18px',
+        pointerEvents: 'none',
+      }}>
+        <div style={{ width: '100%', maxWidth: 540, pointerEvents: 'auto' }}>
           <AnimatePresence>
             {showActionBar && (
               <ActionBar
@@ -238,21 +239,19 @@ export function GameRoom() {
               />
             )}
           </AnimatePresence>
-
           {isMyTurn && !turnInfo && !isActionPending
             && gameState.phase !== 'showdown' && gameState.phase !== 'waiting'
             && !joiningMidGame && (
             <motion.div
-              animate={{ opacity: [1, 0.5, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
+              animate={{ opacity: [1, 0.4, 1] }}
+              transition={{ duration: 1.2, repeat: Infinity }}
               style={{
-                fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700,
-                letterSpacing: '0.12em', color: '#fbbf24',
-                textAlign: 'center', padding: '12px 0',
-                textShadow: '0 0 24px rgba(251,191,36,0.55)',
+                fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700,
+                letterSpacing: '0.18em', color: 'rgba(251,191,36,0.7)',
+                textAlign: 'center', padding: '10px 0',
               }}
             >
-              ⚡ SUA VEZ!
+              SUA VEZ
             </motion.div>
           )}
         </div>

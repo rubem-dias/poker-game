@@ -110,7 +110,7 @@ export function LobbyPage() {
             color: 'rgba(255,255,255,0.28)',
             textTransform: 'uppercase',
             marginTop: 6,
-          }}>Texas Hold'em</p>
+          }}>com amigos</p>
         </div>
 
         {/* Card */}

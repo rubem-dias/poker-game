@@ -142,7 +142,7 @@ export function PlayerSeat({
           <motion.div
             className="absolute rounded-full"
             style={{ inset: -3 }}
-            animate={{ boxShadow: [`0 0 0 2px ${lo}80`, `0 0 0 5px ${lo}50`, `0 0 0 2px ${lo}80`] }}
+            animate={{ boxShadow: [`0 0 0 2px ${lo}50`, `0 0 0 4px ${lo}28`, `0 0 0 2px ${lo}50`] }}
             transition={{ duration: 1.3, repeat: Infinity }}
           />
         )}
@@ -167,13 +167,10 @@ export function PlayerSeat({
               : '0 3px 12px rgba(0,0,0,0.55)',
             fontSize: 34,
             lineHeight: 1,
+            opacity: player.isConnected ? 1 : 0.3,
           }}
         >
-          {!player.isConnected ? (
-            <span style={{ fontSize: 24 }}>📵</span>
-          ) : (
-            AVATARS[player.avatar % AVATARS.length]
-          )}
+          {AVATARS[player.avatar % AVATARS.length]}
         </div>
 
         {/* Dealer / Blind badges */}
@@ -212,7 +209,7 @@ export function PlayerSeat({
           whiteSpace: 'nowrap',
           lineHeight: 1.3,
         }}>
-          {player.name}{isBot ? ' 🤖' : ''}{isLocal ? ' ★' : ''}
+          {player.name}
         </div>
 
         {/* Chip count */}
@@ -225,86 +222,48 @@ export function PlayerSeat({
           marginTop: 1,
           letterSpacing: '0.01em',
         }}>
-          {allIn ? '⚡ ALL IN' : `$${formatChips(player.chips)}`}
+          {allIn ? 'ALL IN' : `$${formatChips(player.chips)}`}
         </div>
       </div>
 
-      {/* ── Current bet ── */}
-      <AnimatePresence>
-        {player.bet > 0 && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.7, y: -6 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.7 }}
-            transition={{ type: 'spring', stiffness: 500, damping: 28 }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 5,
-              fontFamily: 'var(--font-display)',
-              fontSize: 13,
-              fontWeight: 700,
-              color: '#fff',
-              background: 'linear-gradient(135deg, rgba(217,119,6,0.95), rgba(180,83,9,0.95))',
-              border: '1px solid rgba(253,186,116,0.5)',
-              borderRadius: 99,
-              padding: '4px 10px',
-              letterSpacing: '0.02em',
-              lineHeight: 1.5,
-              boxShadow: '0 0 12px rgba(217,119,6,0.6), 0 2px 8px rgba(0,0,0,0.5)',
-            }}
-          >
-            <span style={{ fontSize: 11 }}>🪙</span>
-            ${formatChips(player.bet)}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* ── Current bet + action badge — always in flow, only opacity changes ── */}
+      <div style={{ height: 44, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: player.bet > 0 ? 1 : 0 }}
+          transition={{ duration: 0.18 }}
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 12,
+            fontWeight: 700,
+            color: 'rgba(253,186,116,0.95)',
+            background: 'rgba(217,119,6,0.18)',
+            border: '1px solid rgba(253,186,116,0.22)',
+            borderRadius: 99,
+            padding: '3px 10px',
+            letterSpacing: '0.02em',
+            lineHeight: 1.5,
+          }}
+        >
+          ${formatChips(player.bet)}
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: badge ? 1 : 0 }}
+          transition={{ duration: 0.15 }}
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: '0.10em',
+            color: 'rgba(255,255,255,0.45)',
+            lineHeight: 1.5,
+          }}
+        >
+          {badge?.text ?? ''}
+        </motion.div>
+      </div>
 
-      {/* ── Action badge ── */}
-      <AnimatePresence>
-        {badge && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.7, y: 4 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.7 }}
-            transition={{ type: 'spring', stiffness: 500, damping: 28 }}
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              color: badge.color,
-              background: badge.bg,
-              borderRadius: 99,
-              padding: '3px 10px',
-              lineHeight: 1.5,
-              boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
-            }}
-          >
-            {badge.text}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── Best hand badge ── */}
-      {bestHandCategory && (
-        <div style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 11,
-          fontWeight: 600,
-          color: '#fbbf24',
-          background: 'rgba(251,191,36,0.10)',
-          border: '1px solid rgba(251,191,36,0.28)',
-          borderRadius: 8,
-          padding: '3px 8px',
-          letterSpacing: '0.04em',
-          textAlign: 'center',
-          whiteSpace: 'nowrap',
-          marginTop: 1,
-        }}>
-          ✨ {HAND_PT[bestHandCategory] ?? bestHandCategory}
-        </div>
-      )}
     </div>
   );
 }
