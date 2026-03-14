@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🃏 Poker - Texas Hold'em Multiplayer
 
-## Getting Started
+Jogo de poker Texas Hold'em multiplayer em tempo real, construído com Next.js, Socket.io e Framer Motion.
 
-First, run the development server:
+## Como jogar
+
+### Iniciar o servidor
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) no navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Para jogar com amigos na mesma rede
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Descubra seu IP local (ex: `192.168.1.100`)
+2. Seus amigos acessam `http://192.168.1.100:3000`
+3. Crie uma mesa e compartilhe o código de 6 letras
 
-## Learn More
+## Funcionalidades
 
-To learn more about Next.js, take a look at the following resources:
+- **Texas Hold'em** completo (pre-flop, flop, turn, river, showdown)
+- **Multiplayer real-time** via WebSockets (Socket.io)
+- **2 a 9 jogadores** por mesa
+- **Animações** de cartas, fichas e ações
+- **Timer de turno** (30 segundos por jogada)
+- **Chat** na mesa
+- **Confetti** quando você ganha! 🎉
+- **8 avatares** diferentes
+- **Folha rara**, flush, straight, four of a kind e muito mais detectados automaticamente
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js 14** (App Router)
+- **Socket.io** (WebSockets em tempo real)
+- **Framer Motion** (animações)
+- **Zustand** (gerenciamento de estado)
+- **Tailwind CSS** (estilização)
+- **TypeScript** (tipagem completa)
+- **Zod** (validação de eventos)
 
-## Deploy on Vercel
+## Estrutura
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+server/          # Servidor Node.js customizado
+  game/          # Engine do poker (pura lógica, sem I/O)
+    Deck.ts      # Baralho e embaralhamento
+    HandEvaluator.ts  # Avaliação de mãos (7 cartas)
+    PokerEngine.ts    # Máquina de estados do jogo
+    RoomManager.ts    # Gerenciamento de salas
+  socket/        # Handlers do Socket.io
+    handlers/
+      roomHandlers.ts  # criar/entrar/sair de sala
+      gameHandlers.ts  # ações do jogo
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+components/      # Componentes React
+  cards/         # PlayingCard com animação de flip 3D
+  chips/         # ChipStack animado
+  player/        # PlayerSeat, TurnTimer
+  table/         # PokerTable, GameRoom
+  controls/      # ActionBar, ChatPanel
+  lobby/         # LobbyPage
+  ui/            # WinnerOverlay
+
+stores/          # Zustand store (estado global)
+hooks/           # useSocket, usePlayerActions
+types/           # Tipos TypeScript compartilhados
+lib/             # Utilitários (cardUtils, chipUtils)
+```

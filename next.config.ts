@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Transpile socket.io for client
+  transpilePackages: [],
 };
 
 export default nextConfig;
