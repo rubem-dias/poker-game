@@ -12,7 +12,8 @@ export type HandCategory =
 export interface HandEvaluation {
   rank: number; // higher = better, for comparison
   category: HandCategory;
-  cards: Card[]; // best 5 cards
+  cards: Card[];      // best 5 cards (for comparison)
+  comboCards: Card[]; // only the cards forming the combination (no kickers)
 }
 
 function rankVal(r: Rank): number {
@@ -43,15 +44,11 @@ function evaluateFiveCards(cards: Card[]): HandEvaluation {
   // Determine hand category
   if (isFlush && isStraight) {
     const isRoyal = ranks[0] === 14 && ranks[1] === 13;
-    return {
-      rank: isRoyal ? 9000000 : 8000000 + ranks[0],
-      category: isRoyal ? 'Royal Flush' : 'Straight Flush',
-      cards: sorted,
-    };
+    return { rank: isRoyal ? 9000000 : 8000000 + ranks[0], category: isRoyal ? 'Royal Flush' : 'Straight Flush', cards: sorted, comboCards: sorted };
   }
 
   if (isFlush && isWheelStraight) {
-    return { rank: 8000000 + 5, category: 'Straight Flush', cards: sorted };
+    return { rank: 8000000 + 5, category: 'Straight Flush', cards: sorted, comboCards: sorted };
   }
 
   if (countValues[0] === 4) {
@@ -61,33 +58,26 @@ function evaluateFiveCards(cards: Card[]): HandEvaluation {
       rank: 7000000 + quad * 100 + kicker,
       category: 'Four of a Kind',
       cards: sorted,
+      comboCards: sorted.filter(c => rankVal(c.rank) === quad),
     };
   }
 
   if (countValues[0] === 3 && countValues[1] === 2) {
     const triple = parseInt(Object.keys(counts).find(k => counts[parseInt(k)] === 3)!);
     const pair = parseInt(Object.keys(counts).find(k => counts[parseInt(k)] === 2)!);
-    return {
-      rank: 6000000 + triple * 100 + pair,
-      category: 'Full House',
-      cards: sorted,
-    };
+    return { rank: 6000000 + triple * 100 + pair, category: 'Full House', cards: sorted, comboCards: sorted };
   }
 
   if (isFlush) {
-    return {
-      rank: 5000000 + ranks.reduce((a, r, i) => a + r * Math.pow(15, 4 - i), 0),
-      category: 'Flush',
-      cards: sorted,
-    };
+    return { rank: 5000000 + ranks.reduce((a, r, i) => a + r * Math.pow(15, 4 - i), 0), category: 'Flush', cards: sorted, comboCards: sorted };
   }
 
   if (isStraight) {
-    return { rank: 4000000 + ranks[0], category: 'Straight', cards: sorted };
+    return { rank: 4000000 + ranks[0], category: 'Straight', cards: sorted, comboCards: sorted };
   }
 
   if (isWheelStraight) {
-    return { rank: 4000000 + 5, category: 'Straight', cards: sorted };
+    return { rank: 4000000 + 5, category: 'Straight', cards: sorted, comboCards: sorted };
   }
 
   if (countValues[0] === 3) {
@@ -97,19 +87,18 @@ function evaluateFiveCards(cards: Card[]): HandEvaluation {
       rank: 3000000 + triple * 10000 + kickers[0] * 100 + kickers[1],
       category: 'Three of a Kind',
       cards: sorted,
+      comboCards: sorted.filter(c => rankVal(c.rank) === triple),
     };
   }
 
   if (countValues[0] === 2 && countValues[1] === 2) {
-    const pairs = Object.keys(counts)
-      .filter(k => counts[parseInt(k)] === 2)
-      .map(Number)
-      .sort((a, b) => b - a);
+    const pairs = Object.keys(counts).filter(k => counts[parseInt(k)] === 2).map(Number).sort((a, b) => b - a);
     const kicker = ranks.find(r => r !== pairs[0] && r !== pairs[1])!;
     return {
       rank: 2000000 + pairs[0] * 10000 + pairs[1] * 100 + kicker,
       category: 'Two Pair',
       cards: sorted,
+      comboCards: sorted.filter(c => pairs.includes(rankVal(c.rank))),
     };
   }
 
@@ -120,6 +109,7 @@ function evaluateFiveCards(cards: Card[]): HandEvaluation {
       rank: 1000000 + pair * 100000 + kickers[0] * 1000 + kickers[1] * 10 + kickers[2],
       category: 'One Pair',
       cards: sorted,
+      comboCards: sorted.filter(c => rankVal(c.rank) === pair),
     };
   }
 
@@ -127,6 +117,7 @@ function evaluateFiveCards(cards: Card[]): HandEvaluation {
     rank: ranks.reduce((a, r, i) => a + r * Math.pow(15, 4 - i), 0),
     category: 'High Card',
     cards: sorted,
+    comboCards: sorted,
   };
 }
 

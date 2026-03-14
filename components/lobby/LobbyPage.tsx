@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Stars } from '../ui/Stars';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getSocket } from '../../hooks/useSocket';
 import { useGameStore } from '../../stores/gameStore';
@@ -72,16 +73,7 @@ export function LobbyPage() {
       ))}
 
       {/* Stars */}
-      {Array.from({ length: 40 }).map((_, i) => (
-        <div key={i} className="fixed rounded-full bg-white" style={{
-          width: 1 + Math.random() * 2,
-          height: 1 + Math.random() * 2,
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 70}%`,
-          opacity: 0.1 + Math.random() * 0.3,
-          animation: `twinkle ${2 + Math.random() * 4}s ease-in-out infinite ${Math.random() * 3}s`,
-        }} />
-      ))}
+      <Stars count={40} maxTop={70} />
 
       {/* Main container */}
       <motion.div

@@ -7,6 +7,7 @@ import { PokerTable } from './PokerTable';
 import { ActionBar } from '../controls/ActionBar';
 import { ChatPanel } from '../controls/ChatPanel';
 import { WinnerOverlay } from '../ui/WinnerOverlay';
+import { Stars } from '../ui/Stars';
 import { LeaveConfirmModal } from '../ui/LeaveConfirmModal';
 import { SittingOutBanner } from '../ui/SittingOutBanner';
 import { formatChips } from '../../lib/cardUtils';
@@ -79,19 +80,7 @@ export function GameRoom() {
         background: 'linear-gradient(0deg, rgba(109,40,217,0.22) 0%, transparent 100%)',
       }} />
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 55 }).map((_, i) => (
-          <div key={i} style={{
-            position: 'absolute',
-            borderRadius: '50%',
-            background: '#fff',
-            width: 1 + Math.random(),
-            height: 1 + Math.random(),
-            left: `${Math.random() * 100}%`,
-            top:  `${Math.random() * 58}%`,
-            opacity: 0.06 + Math.random() * 0.22,
-            animation: `twinkle ${2 + Math.random() * 5}s ease-in-out infinite ${Math.random() * 4}s`,
-          }} />
-        ))}
+        <Stars count={55} maxTop={58} />
       </div>
 
       {/* ── Floating leave button ── */}

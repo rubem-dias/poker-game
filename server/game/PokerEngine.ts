@@ -315,7 +315,7 @@ export class PokerEngine {
       results.push({
         winnerId: w.id,
         winnerIds: winners.map(x => x.id),
-        handName: 'Winner by default',
+        handName: 'Todos foldaram',
         handRank: 0,
         amount: share,
       });
@@ -415,7 +415,7 @@ export class PokerEngine {
           this.state.communityCards.length >= 3
         ) {
           const evaluation = evaluateBestHand(p.cards, this.state.communityCards);
-          bestHand = { category: evaluation.category, cardIds: evaluation.cards.map(c => c.id) };
+          bestHand = { category: evaluation.category, cardIds: evaluation.comboCards.map(c => c.id) };
         }
 
         return { ...p, cards, bestHand };

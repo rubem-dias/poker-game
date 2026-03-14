@@ -124,7 +124,7 @@ export function PlayerSeat({
                 faceDown={!isLocal && !showCards}
                 size="sm"
                 delay={i * 0.1}
-                highlighted={isActive && isLocal}
+                highlighted={false}
                 handHighlight={bestHandCardIds?.includes(card.id) ?? false}
                 rotate={i === 0 ? -6 : 6}
               />

@@ -63,13 +63,13 @@ export function PokerTable({
 
   return (
     /* Aspect-ratio wrapper keeps the table proportional */
-    <div className="relative w-full" style={{ paddingBottom: '56%' }}>
+    <div className="relative w-full" style={{ paddingBottom: '75%' }}>
       <div className="absolute inset-0">
 
         {/* ── Table SVG ── */}
         <svg
           className="absolute inset-0 w-full h-full"
-          viewBox="0 0 900 504"
+          viewBox="0 0 900 675"
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
@@ -101,27 +101,27 @@ export function PokerTable({
           </defs>
 
           {/* Drop shadow */}
-          <ellipse cx="450" cy="266" rx="415" ry="224" fill="rgba(0,0,0,0.5)" transform="translate(0,18)" />
+          <ellipse cx="450" cy="338" rx="415" ry="299" fill="rgba(0,0,0,0.5)" transform="translate(0,18)" />
 
           {/* Outer surround (table body) */}
-          <ellipse cx="450" cy="255" rx="415" ry="222" fill="url(#g-outer)" filter="url(#f-shadow)" />
+          <ellipse cx="450" cy="338" rx="415" ry="297" fill="url(#g-outer)" filter="url(#f-shadow)" />
 
           {/* Wood rim */}
-          <ellipse cx="450" cy="255" rx="404" ry="211" fill="url(#g-rim)" />
+          <ellipse cx="450" cy="338" rx="404" ry="282" fill="url(#g-rim)" />
           {/* Rim inner highlight */}
-          <ellipse cx="450" cy="248" rx="404" ry="211" fill="none"
+          <ellipse cx="450" cy="331" rx="404" ry="282" fill="none"
             stroke="rgba(255,255,255,0.10)" strokeWidth="1.5" />
 
           {/* Felt */}
-          <ellipse cx="450" cy="255" rx="382" ry="193" fill="url(#g-felt)" />
+          <ellipse cx="450" cy="338" rx="382" ry="258" fill="url(#g-felt)" />
           {/* Felt sheen */}
-          <ellipse cx="450" cy="255" rx="382" ry="193" fill="url(#g-sheen)" />
+          <ellipse cx="450" cy="338" rx="382" ry="258" fill="url(#g-sheen)" />
           {/* Felt border */}
-          <ellipse cx="450" cy="255" rx="382" ry="193" fill="none"
+          <ellipse cx="450" cy="338" rx="382" ry="258" fill="none"
             stroke="rgba(255,255,255,0.05)" strokeWidth="1.5" />
 
           {/* Centre decorative ellipse */}
-          <ellipse cx="450" cy="255" rx="140" ry="70" fill="none"
+          <ellipse cx="450" cy="338" rx="140" ry="94" fill="none"
             stroke="rgba(255,255,255,0.04)" strokeWidth="1" strokeDasharray="5 7" />
         </svg>
 
