@@ -46,6 +46,8 @@ export function getRoom(id: string): GameRoom | undefined {
   return rooms.get(id);
 }
 
+//foda
+
 export function getRoomByCode(code: string): GameRoom | undefined {
   const id = codeToId.get(code.toUpperCase());
   return id ? rooms.get(id) : undefined;
